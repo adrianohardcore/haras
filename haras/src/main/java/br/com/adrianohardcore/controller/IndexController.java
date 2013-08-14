@@ -10,7 +10,7 @@ import br.com.adrianohardcore.service.RoleService;
 import br.com.adrianohardcore.service.UserService;
 
 @Controller
-@PreAuthorize("hasAuthority('USER')")
+
 public class IndexController {
 	
 	@Autowired
@@ -20,6 +20,8 @@ public class IndexController {
 	RoleService roleService;	
 	
 	protected static Logger logger = Logger.getLogger("service");
+	
+	@PreAuthorize("hasAuthority('USER')")
 	@RequestMapping("/")
 	public String getHomePage() {	
 		logger.debug("PÃ¡gina inicial");
@@ -27,5 +29,9 @@ public class IndexController {
 		return "index/home";
 	}	
 	
-	
+	@RequestMapping("/404")
+	public String notFound() {	
+		logger.debug("Página não encontrada");				
+		return "index/404";
+	}
 }

@@ -3,7 +3,7 @@ package br.com.adrianohardcore.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -20,8 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.adrianohardcore.model.Cliente;
 import br.com.adrianohardcore.model.Endereco;
-import br.com.adrianohardcore.model.util.ClienteEnderecoEditor;
 import br.com.adrianohardcore.repository.ClienteRepository;
 import br.com.adrianohardcore.repository.EnderecoRepository;
 import br.com.adrianohardcore.service.ClienteService;
@@ -90,17 +87,7 @@ public class ClienteController  {
 		logger.info("Nova cliente");
 		modelMap.addAttribute("cliente", new Cliente());
 		return "cliente/create";
-	}
-	
-	@RequestMapping(value = "/cliente", method = RequestMethod.POST)	
-	public String create(@Valid Cliente cliente, BindingResult result) {
-		logger.info("Salvar cliente");		
-		if (result.hasErrors())
-			return "cliente/create";		
-		clienteService.save(cliente);
-		return "redirect:/cliente";
-	}
-	
+	}	
 	
 	@RequestMapping(value = "/cliente/{id}/form", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, ModelMap modelMap) {
@@ -108,23 +95,7 @@ public class ClienteController  {
 		modelMap.addAttribute("cliente", clienteRepository.findOne(id));		
 		modelMap.addAttribute("endereco", new Endereco());
 		return "cliente/update";
-	}
-	
-	
-	
-	@RequestMapping(value = "/cliente",method = RequestMethod.PUT)
-	public String update(@ModelAttribute @Valid Cliente cliente,BindingResult result) {
-		logger.info("Atualizar clientes do formulario update");
-		if (result.hasErrors())
-		{			  
-			logger.info("Houve erros na atualização");
-			return "cliente/update";
-		}
-		
-		clienteService.update(cliente);
-		return "redirect:/cliente";
-	}
-	
+	}	
 	
 	@RequestMapping(value = "/cliente/{id}", method = RequestMethod.DELETE)	
 	public void delete(@PathVariable("id") Long id) {
@@ -132,11 +103,19 @@ public class ClienteController  {
 		clienteService.delete(id);		
 	}
 	
-	@RequestMapping(value = "/cliente-endereco/{id}", method = RequestMethod.DELETE)	
-	public void deleteEndereco(@PathVariable("id") Long id) {
-		logger.info("Excluindo endereco");			
-		enderecoService.delete(id);		
+	@RequestMapping(value = "/cliente/cliente-endereco/{id}", method = RequestMethod.DELETE)	
+	public void deleteEndereco(@PathVariable("id") Long id,HttpServletResponse response) {
+		logger.info("Excluindo endereco " +  id.toString() );			
+		enderecoService.delete(id);
+		response.setStatus(200);		
 	}
+	
+//	@RequestMapping("finalizaTarefa")
+//	public void finaliza(Long id, HttpServletResponse response) {
+//	  JdbcTarefaDao dao = new JdbcTarefaDao();
+//	  dao.finaliza(id);
+//	  response.setStatus(200);
+//	}	
 	
 	
 	@RequestMapping(value = "/cliente/{id}/show", method = RequestMethod.GET)
@@ -146,8 +125,32 @@ public class ClienteController  {
 		return "cliente/show";
 	}  
 	
-	@InitBinder  
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {  
-       binder.registerCustomEditor(Cliente.class, new ClienteEnderecoEditor(this.clienteRepository));   
-    }
+//	@InitBinder  
+//    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {  
+//       binder.registerCustomEditor(Cliente.class, new ClienteEnderecoEditor(this.clienteRepository));   
+//    }
+	
+	@RequestMapping(value = "/cliente", method = RequestMethod.POST)	
+	public String create(@Valid Cliente cliente, BindingResult result) {
+		logger.info("Salvar cliente");		
+		if (result.hasErrors())
+			return "cliente/create";		
+		clienteService.save(cliente);
+		return "redirect:/cliente/" + cliente.getId().toString() + "/show";
+	}
+	
+	@RequestMapping(value = "/cliente",method = RequestMethod.PUT)
+	public String update(@ModelAttribute @Valid Cliente cliente,BindingResult result) {
+		logger.info("Atualizar clientes do formulario update");
+		if (result.hasErrors())
+		{			  
+			logger.info("Houve erros na atualização");
+			return "cliente/update";
+		}		
+		clienteService.update(cliente);
+		//return "redirect:/cliente";
+		return "redirect:/cliente/" + cliente.getId().toString() + "/show";
+	}		
+	
+
 }

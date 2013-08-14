@@ -11,5 +11,13 @@
 	
 	<definition extends="default" name="index/login">
 		<put-attribute name="body" value="/WEB-INF/views/index/login.jsp" />
-	</definition>	
+	</definition>
+	
+	<definition extends="default" name="index/exception">
+		<put-attribute name="body" value="/WEB-INF/views/index/exception.jsp" />
+	</definition>			
+	
+	<definition extends="default" name="index/404">
+		<put-attribute name="body" value="/WEB-INF/views/index/404.jsp" />
+	</definition>		
 </tiles-definitions>

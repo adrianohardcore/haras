@@ -23,11 +23,10 @@ public class Endereco implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long id;	
 	
 	@ManyToOne
-    private Cliente cliente;
-	
+    private Cliente cliente;	
 	
 	@NotNull
 	@Size(min=5,max=50,message="Endereço deve conter de 5 a 50 caracteres")

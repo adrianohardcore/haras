@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.adrianohardcore.model.Endereco;
 import br.com.adrianohardcore.model.User;
@@ -58,9 +59,13 @@ public class EnderecoService {
 		enderecoRepository.save(endereco);		
 	}
 
+	@Transactional
 	public void delete(Long id) {
-		logger.info("Excluindo registro");
-		enderecoRepository.delete(id);		
+		logger.info("Excluindo endereço: " + id.toString() );
+		//Endereco endereco = enderecoRepository.findOne(id);
+		//logger.info("Excluindo endereço , ID: " +  endereco.getId().toString() );
+		//enderecoRepository.delete(enderecoRepository.findOne(id));
+		enderecoRepository.delete(id);
 	}
 
 }

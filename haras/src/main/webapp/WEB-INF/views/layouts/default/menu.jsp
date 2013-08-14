@@ -11,6 +11,7 @@
 <c:url value="/cliente" var="clienteUrl" />
 <c:url value="/logout" var="logoutUrl" />
 <c:url value="/login" var="loginUrl" />
+<c:url value="/animal" var="animalUrl" />
 
 
 <div class="well sidebar-nav">
@@ -24,6 +25,7 @@
 		</sec:authorize>
 		<sec:authorize access="hasRole('USER')">
 			<li id="clientes"><a  href="${clienteUrl}">Clientes</a></li>	
+			<li id="animais"><a  href="${animalUrl}">Animais</a></li>			
 		</sec:authorize>
 	</ul>
 </div>

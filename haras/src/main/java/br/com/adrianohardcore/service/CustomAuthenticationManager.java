@@ -5,6 +5,8 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +27,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	protected static Logger logger = Logger.getLogger("service");
 
 	@Autowired
-	UserRepository userRepository;
+	UserRepository userRepository;  
 
 	private Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 
@@ -50,6 +52,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
 		logger.debug("Usuário e senha corretos");
 		
+		
+		
 		Collection<GrantedAuthority> grantedAuthorities = toGrantedAuthorities(user);		
 		return new UsernamePasswordAuthenticationToken(auth.getName(),auth.getCredentials(), grantedAuthorities);
 	}
@@ -63,4 +67,6 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         }
         return result;
     }
+    
+
 }

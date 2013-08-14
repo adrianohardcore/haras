@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -40,10 +41,25 @@ public class Cliente implements Serializable{
 	@NotNull		
 	private String cnpj;	
 	
+//	@JsonIgnore
+//	@Valid
+//	@Embedded
+//	@OneToMany(mappedBy="cliente", cascade= CascadeType.ALL , fetch = FetchType.LAZY)	
+//    private List<Endereco> enderecos;
+	
 	@JsonIgnore
 	@Valid
-	@OneToMany(mappedBy="cliente", cascade= CascadeType.PERSIST , fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY )
+    @JoinColumn(name="CLIENTE_ID")
     private List<Endereco> enderecos;
+	
+	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta", orphanRemoval=true)    
+//    @LazyCollection(LazyCollectionOption.FALSE)    
+//     private List<Posicionamento> posicionamentos;
+	
+	
+	
 	
 	@JsonSerialize(using=JsonDateSerializer.class)
     private Date dateCreation;

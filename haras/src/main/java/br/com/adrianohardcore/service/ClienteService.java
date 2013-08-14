@@ -36,6 +36,7 @@ public class ClienteService {
 	
 
 	public void save(Cliente cliente) {
+		logger.info("Salvando registro");
 		Object userName =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByUserName(userName.toString());		
 		cliente.setDateCreation(new Date());
@@ -43,7 +44,7 @@ public class ClienteService {
 		cliente.setUserCreation(user.getId());
 		cliente.setUserModify(user.getId());		
 		logger.info("Salvando registro");
-		clienteRepository.save(cliente);	
+		clienteRepository.saveAndFlush(cliente) ;	
 	}
 
 	
@@ -56,25 +57,25 @@ public class ClienteService {
 		cliente.setCpf(clienteForm.getCpf());
 		cliente.setCnpj(clienteForm.getCnpj());
 			
-//		Boolean temEnderecos = false;
-//		if (clienteForm.getEnderecos()!= null){
-//			for (Endereco endereco : clienteForm.getEnderecos()) {
-//				//if (!endereco.getEndereco().isEmpty()){
-//					//endereco.setCliente(cliente);		
-//					//endereco.setDateCreation(new Date());
-//					//endereco.setDateModify(new Date());
-//					//endereco.setUserCreation(user.getId());
-//					//endereco.setUserModify(user.getId());			
-//					
-//					logger.info("ID " + endereco.getId());
-//					//logger.info("Cliente " + endereco.getCliente().getNome());
-//					logger.info("Endereco " + endereco.getEndereco());
-//					logger.info("Número " + endereco.getNumero());
-//					logger.info("Bairro " + endereco.getBairro());
-//					temEnderecos = true;
-//				//}			
-//			}	
-//		}
+		Boolean temEnderecos = false;
+		if (clienteForm.getEnderecos()!= null){
+			for (Endereco endereco : clienteForm.getEnderecos()) {
+				//if (!endereco.getEndereco().isEmpty()){
+					//endereco.setCliente(cliente);		
+					//endereco.setDateCreation(new Date());
+					//endereco.setDateModify(new Date());
+					//endereco.setUserCreation(user.getId());
+					//endereco.setUserModify(user.getId());			
+					
+					logger.info("ID " + endereco.getId());
+					//logger.info("Cliente " + endereco.getCliente().getNome());
+					logger.info("Endereco " + endereco.getEndereco());
+					logger.info("Número " + endereco.getNumero());
+					logger.info("Bairro " + endereco.getBairro());
+					temEnderecos = true;
+				//}			
+			}	
+		}
 		
 //		if (temEnderecos)
 //			cliente.setEnderecos(clienteForm.getEnderecos());
@@ -85,10 +86,11 @@ public class ClienteService {
 		logger.info("Atualizando registro");
 		clienteRepository.save(cliente);		
 	}
-
+	
+	
 	public void delete(Long id) {
 		logger.info("Excluindo registro");
-		clienteRepository.delete(id);		
+		clienteRepository.delete(id)   ;		
 	}
 
 }
