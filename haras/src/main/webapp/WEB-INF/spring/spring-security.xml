@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+	<global-method-security pre-post-annotations="enabled" />
+	<http pattern="/resources" security="none" />
+	
+		<!-- Custom filter to deny unwanted users even though registered -->
+	<beans:bean id="blacklistFilter"
+		class="br.com.adrianohardcore.filter.BlacklistFilter">
+	</beans:bean>
+
+	<!-- This is where we configure Spring-Security -->
+	<http auto-config="false" use-expressions="true"
+		access-denied-page="/denied" entry-point-ref="authenticationEntryPoint">
+
+		<!-- <intercept-url pattern="/login" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/logout" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/denied" access="hasRole('ROLE_USER')" /> -->
+		<!-- <intercept-url pattern="/" access="hasRole('ROLE_USER')" /> -->
+		<!-- <intercept-url pattern="/user" access="hasRole('ROLE_USER')" /> -->
+		<!-- <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" /> -->
+
+		<logout invalidate-session="true" logout-success-url="/logout/success"
+			logout-url="/logout" />
+
+		<custom-filter ref="blacklistFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER" />
+	</http>
+
+
+
+	<!-- Custom filter for username and password. The real customization is 
+		done in the customAthenticationManager -->
+	<beans:bean id="authenticationFilter"
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="customAuthenticationManager" />
+		<beans:property name="authenticationFailureHandler"
+			ref="customAuthenticationFailureHandler" />
+		<beans:property name="authenticationSuccessHandler"
+			ref="customAuthenticationSuccessHandler" />
+	</beans:bean>
+
+	<!-- Custom authentication manager. In order to authenticate, username and 
+		password must not be the same -->
+	<beans:bean id="customAuthenticationManager"
+		class="br.com.adrianohardcore.service.CustomAuthenticationManager"></beans:bean>
+
+	<!-- We just actually need to set the default failure url here -->
+	<beans:bean id="customAuthenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/login/failure"></beans:property>
+	</beans:bean>
+
+	<!-- We just actually need to set the default target url here -->
+	<beans:bean id="customAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/"></beans:property>
+	</beans:bean>
+
+	<!-- The AuthenticationEntryPoint is responsible for redirecting the user 
+		to a particular page, like a login page, whenever the server sends back a 
+		response requiring authentication -->
+	<!-- See Spring-Security Reference 5.4.1 for more info -->
+	<beans:bean id="authenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/login"></beans:property>
+	</beans:bean>
+
+	<!-- The tag below has no use but Spring Security needs it to autowire the 
+		parent property of org.springframework.security.authentication.ProviderManager. 
+		Otherwise we get an error A probable bug. This is still under investigation -->
+	<authentication-manager />
+
+</beans:beans>
