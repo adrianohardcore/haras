@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+	<definition extends="default" name="animal/create">
+		<put-attribute name="body" value="/WEB-INF/views/animal/create.jsp" />
+		<put-attribute name="sub-menu" value="/WEB-INF/views/animal/sub-menu.jsp" />
+	</definition>
+	
+	<definition extends="default" name="animal/list">
+		<put-attribute name="body" value="/WEB-INF/views/animal/list.jsp" />
+		<put-attribute name="sub-menu" value="/WEB-INF/views/animal/sub-menu.jsp" />
+	</definition>
+	
+	<definition extends="default" name="animal/update">
+		<put-attribute name="body" value="/WEB-INF/views/animal/update.jsp" />
+		<put-attribute name="sub-menu" value="/WEB-INF/views/animal/sub-menu.jsp" />
+	</definition>	
+</tiles-definitions>
