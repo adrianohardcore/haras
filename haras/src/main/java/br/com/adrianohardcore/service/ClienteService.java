@@ -56,31 +56,8 @@ public class ClienteService {
 		cliente.setNome(clienteForm.getNome());
 		cliente.setCpf(clienteForm.getCpf());
 		cliente.setCnpj(clienteForm.getCnpj());
-			
-		Boolean temEnderecos = false;
-		if (clienteForm.getEnderecos()!= null){
-			for (Endereco endereco : clienteForm.getEnderecos()) {
-				//if (!endereco.getEndereco().isEmpty()){
-					//endereco.setCliente(cliente);		
-					//endereco.setDateCreation(new Date());
-					//endereco.setDateModify(new Date());
-					//endereco.setUserCreation(user.getId());
-					//endereco.setUserModify(user.getId());			
-					
-					logger.info("ID " + endereco.getId());
-					//logger.info("Cliente " + endereco.getCliente().getNome());
-					logger.info("Endereco " + endereco.getEndereco());
-					logger.info("Número " + endereco.getNumero());
-					logger.info("Bairro " + endereco.getBairro());
-					temEnderecos = true;
-				//}			
-			}	
-		}
-		
-//		if (temEnderecos)
-//			cliente.setEnderecos(clienteForm.getEnderecos());
-		
-		cliente.setEnderecos(clienteForm.getEnderecos());		
+		cliente.setEnderecos(clienteForm.getEnderecos());	
+		cliente.setAnimais(clienteForm.getAnimais());
 		cliente.setDateModify(new Date());		
 		cliente.setUserModify(user.getId());		
 		logger.info("Atualizando registro");

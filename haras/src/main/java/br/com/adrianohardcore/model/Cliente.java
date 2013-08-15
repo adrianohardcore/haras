@@ -53,6 +53,12 @@ public class Cliente implements Serializable{
     @JoinColumn(name="CLIENTE_ID")
     private List<Endereco> enderecos;
 	
+	@JsonIgnore
+	@Valid
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY )
+    @JoinColumn(name="CLIENTE_ID")
+    private List<Animal> animais;
+	
 	
 //	@OneToMany(cascade = CascadeType.ALL, mappedBy = "proposta", orphanRemoval=true)    
 //    @LazyCollection(LazyCollectionOption.FALSE)    
@@ -109,6 +115,14 @@ public class Cliente implements Serializable{
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public List<Animal> getAnimais() {
+		return animais;
+	}
+
+	public void setAnimais(List<Animal> animais) {
+		this.animais = animais;
 	}
 
 	public Date getDateCreation() {

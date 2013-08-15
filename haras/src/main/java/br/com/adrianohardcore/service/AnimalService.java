@@ -26,4 +26,10 @@ public class AnimalService {
 		animalRepository.saveAndFlush(animal);		
 	}
 
+	public void delete(Long id) {
+		logger.info("Excluindo animal: " + id.toString() );
+		animalRepository.delete(id);
+		
+	}
+
 }

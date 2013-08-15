@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,6 +33,9 @@ public class Animal implements Serializable{
 	@Size(min=2,max=50)
 	private String nome;
 	
+	@ManyToOne
+    private Cliente cliente;		
+	
 	@JsonSerialize(using=JsonDateSerializer.class)
     private Date dateCreation;
     
@@ -56,6 +60,14 @@ public class Animal implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Date getDateCreation() {

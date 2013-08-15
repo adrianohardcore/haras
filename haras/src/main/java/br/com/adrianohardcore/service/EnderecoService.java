@@ -62,9 +62,6 @@ public class EnderecoService {
 	@Transactional
 	public void delete(Long id) {
 		logger.info("Excluindo endereço: " + id.toString() );
-		//Endereco endereco = enderecoRepository.findOne(id);
-		//logger.info("Excluindo endereço , ID: " +  endereco.getId().toString() );
-		//enderecoRepository.delete(enderecoRepository.findOne(id));
 		enderecoRepository.delete(id);
 	}
 

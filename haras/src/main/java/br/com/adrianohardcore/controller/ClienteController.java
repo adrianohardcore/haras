@@ -31,6 +31,7 @@ import br.com.adrianohardcore.model.Cliente;
 import br.com.adrianohardcore.model.Endereco;
 import br.com.adrianohardcore.repository.ClienteRepository;
 import br.com.adrianohardcore.repository.EnderecoRepository;
+import br.com.adrianohardcore.service.AnimalService;
 import br.com.adrianohardcore.service.ClienteService;
 import br.com.adrianohardcore.service.EnderecoService;
 
@@ -48,6 +49,9 @@ public class ClienteController  {
 	
 	@Autowired
 	EnderecoService enderecoService;	
+	
+	@Autowired
+	AnimalService animalService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 	
@@ -110,13 +114,14 @@ public class ClienteController  {
 		response.setStatus(200);		
 	}
 	
-//	@RequestMapping("finalizaTarefa")
-//	public void finaliza(Long id, HttpServletResponse response) {
-//	  JdbcTarefaDao dao = new JdbcTarefaDao();
-//	  dao.finaliza(id);
-//	  response.setStatus(200);
-//	}	
+	@RequestMapping(value = "/cliente/cliente-animal/{id}", method = RequestMethod.DELETE)	
+	public void deleteAnimal(@PathVariable("id") Long id,HttpServletResponse response) {
+		logger.info("Excluindo animal " +  id.toString() );			
+		animalService.delete(id);
+		response.setStatus(200);		
+	}	
 	
+
 	
 	@RequestMapping(value = "/cliente/{id}/show", method = RequestMethod.GET)
 	public String show(@PathVariable("id") Long id, ModelMap modelMap) {		

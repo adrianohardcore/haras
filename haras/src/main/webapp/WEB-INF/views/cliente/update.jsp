@@ -9,6 +9,7 @@
 <head>
 <title><spring:message code="cliente.update" /></title>
 <c:url value="/cliente/cliente-endereco/" var="deleteUrl" />
+<c:url value="/cliente/cliente-animal/" var="deleteUrlAnimal" />
 
 <script type='text/javascript'
 	src='<c:url value="/resources/jqgrid/js/jquery-1.9.0.min.js"/>'></script>
@@ -18,17 +19,29 @@
 
 $(document).on('click', 'a.remove', function(){//idendereco
 	var id = $(this.parentNode.parentNode).attr('data-id');	
-	var linha = $(this);
-	//$(this).closest('tr').remove();		
-
+	var linha = $(this);	
 	if (id != null){
 		$.ajax({
 			type: "DELETE",
-			url:'${deleteUrl}' + id ,				
-			//url:'paginaerradaqualquer' + id ,
+			url:'${deleteUrl}' + id ,
 			success: function(){
-				//$(row).remove(); //Remove the row containing the image element
-				//alert('Vai excluir? ');
+				$(linha).closest('tr').remove();				
+			}
+		});
+	}else
+	{
+		$(this).closest('tr').remove();			
+	}
+}); 
+
+$(document).on('click', 'a.removeAnimal', function(){//idendereco
+	var id = $(this.parentNode.parentNode).attr('data-id');	
+	var linha = $(this);	
+	if (id != null){
+		$.ajax({
+			type: "DELETE",
+			url:'${deleteUrlAnimal}' + id ,
+			success: function(){
 				$(linha).closest('tr').remove();				
 			}
 		});
@@ -52,11 +65,26 @@ function adicionaLinha(){
 				"<td><input type='text' name='enderecos[" + index + "].cidade' class='input-small'/></td>"+
 				"<td><input type='text' name='enderecos[" + index + "].uf' class='input-mini'/></td>"+
 				"<td><input type='text' name='enderecos[" + index + "].pais' class='input-small'/></td>"+
-		        "<td><a href='#' class='remove'> <span class='ui-icon ui-icon-closethick'> </span> </a></td>"+				
+		        "<td><a href='#' class='removeAnimal'> <span class='ui-icon ui-icon-closethick'> </span> </a></td>"+				
 			"</tr>"+
 			"</tbody>";
     $("#enderecos").closest('table').append(row); 
     index = index + 1;    	  
+};
+
+var indexAnimal = ${fn:length(cliente.animais)};
+function adicionaLinhaAnimal(){    	  
+	
+	  var row = 
+  	  "<tbody id='animais'>"+
+			"<tr>"+
+				"<td>0</td>"+
+				"<td><input type='text' name='animais[" + indexAnimal + "].nome' class='input'/></td>"+
+		        "<td><a href='#' class='remove'> <span class='ui-icon ui-icon-closethick'> </span> </a></td>"+				
+			"</tr>"+
+			"</tbody>";			
+    $("#linhaAnimal").closest('table').append(row); 
+    indexAnimal = indexAnimal + 1;    	  
 };
  
 </script>
@@ -87,6 +115,7 @@ function adicionaLinha(){
 			<label for="cnpj"><spring:message code="cliente.cnpj" /></label>
 			<form:input maxlength="14" path="cnpj" size="14" />
 		</div>
+		
 		<fieldset>
 			<legend>Endereços</legend>
 			<table id="tabela" class="table table-bordered">
@@ -132,12 +161,47 @@ function adicionaLinha(){
 				</tbody>
 			</table>
 		</fieldset>
+		
+		
+		<fieldset>
+			<legend>Animais</legend>
+			<table id="tabelaAnimal" class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>						
+						<th></th>	
+					</tr>
+				</thead>
+				<tbody id="linhaAnimal">
+					<c:forEach items="${cliente.animais}" var="animal" varStatus="statusAnimal">
+						
+						<tr class="list-item" data-id="${animal.id}">
+							<td>${animal.id}</td>
+							<td><form:input maxlength="30"
+									path="animais[${statusAnimal.index}].nome" cssClass="input" /></td>						
+							<td><a href="#" id="removeAnimal" class="removeAnimal"> <span
+									class="ui-icon ui-icon-closethick" > </span>
+							</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</fieldset>
+		
+		<div id="divAnimal"></div>
+		
 
 		<div>
 			<p>
 				<input type="button" value="Adicionar Endereço" id="adicionar"
-					onclick="adicionaLinha();"> <input type="submit"
-					value="Salvar endereço" id="submit" />
+					onclick="adicionaLinha();"> 
+					
+				<input type="button" value="Adicionar Animal" id="adicionarAnimal"
+					onclick="adicionaLinhaAnimal();"> 
+					
+					<input type="submit"
+					value="Salvar" id="submit" />					
 			</p>
 		</div>
 		<div id="msgbox"></div>

@@ -43,57 +43,7 @@ public class AnimalController {
 	@Autowired
 	AnimalService animalService;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(AnimalController.class);
-
-	// @Transactional
-	// @RequestMapping(value = "/animais", produces = "application/json")
-	// public @ResponseBody
-	// List<Animal> listDojo(
-	// @RequestHeader(value = "Range", required = false) String range,
-	// @RequestParam(value = "sort", required = false) String sort,
-	// HttpServletRequest request) {
-	// Integer page = 0;
-	// page += 1;
-	//
-	// logger.info("Dojo range " + range);
-	// logger.info("Dojo sort " + sort);
-	//
-	// Integer regIni = Integer.parseInt((range.split("=")[1]).split("-")[0]);
-	// Integer regFinal = Integer
-	// .parseInt((range.split("=")[1]).split("-")[1]);
-	//
-	// Integer rows = (regFinal - regIni);
-	// logger.info("Quantidade de linhas: " + rows.toString());
-	//
-	// Order order = new Order(Direction.fromString("asc"), "nome");
-	// Sort sortList = new Sort(order);
-	//
-	// if (sort != null) {
-	// String coluna = (String) sort.subSequence(1, sort.length());
-	// String ordem = (String) sort.subSequence(0, 1);
-	// logger.info("[" + ordem + "]");
-	//
-	// if (ordem.equalsIgnoreCase("-")) {
-	// ordem = "desc";
-	// } else {
-	// ordem = "asc";
-	// }
-	// logger.info("Ordenar a coluna " + coluna + " com a ordenação " + ordem);
-	//
-	// order = new Order(Direction.fromString(ordem),coluna);
-	// sortList = new Sort(order);
-	// }
-	//
-	// Pageable pageRequest = new PageRequest(page - 1, rows + 1, sortList);
-	// Page<Animal> animais = animalRepository.findAll(pageRequest);
-	//
-	// HttpHeaders headers = new HttpHeaders();
-	//
-	//
-	//
-	// return animais.getContent();
-	// }
+	private static final Logger logger = LoggerFactory.getLogger(AnimalController.class);
 
 	@Transactional
 	@RequestMapping(value = "/animais", produces = "application/json")

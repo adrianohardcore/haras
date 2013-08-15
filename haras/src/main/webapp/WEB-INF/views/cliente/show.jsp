@@ -70,13 +70,27 @@
 			</table>
 		</fieldset>
 		
-<%-- 		<form:button  value="/cliente/${cliente.id}/form" >Editar</form:button> --%>
-		
+		<fieldset>
+			<legend>Animais</legend>
+			<table id="tabela" class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>						
+					</tr>
+				</thead>
+				<tbody id="animais">
+					<c:forEach items="${cliente.animais}" var="animal"
+						varStatus="status">
+						<tr>
+							<td>${animal.id}</td>
+							<td>${animal.nome}							
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</fieldset>			
 		<a href="<c:url value="/cliente/${cliente.id}/form"/>" id="editar" >Editar</a>
-
-
-
-
 	</form:form>
 </body>
 
