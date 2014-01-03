@@ -1,8 +1,5 @@
 package br.com.adrianohardcore.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,19 +9,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import br.com.adrianohardcore.model.util.JsonDateSerializer;
+import br.com.adrianohardcore.model.util.ModeloGeral;
 
 @JsonAutoDetect
 @Entity(name = "animal")
-public class Animal implements Serializable{
+public class Animal extends ModeloGeral{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -36,15 +32,7 @@ public class Animal implements Serializable{
 	@ManyToOne
     private Cliente cliente;		
 	
-	@JsonSerialize(using=JsonDateSerializer.class)
-    private Date dateCreation;
-    
-	@JsonSerialize(using=JsonDateSerializer.class)
-    private Date dateModify;	
-	
-	private Long userCreation;
-	
-	private Long userModify;
+
 
 	public Long getId() {
 		return id;
@@ -70,37 +58,7 @@ public class Animal implements Serializable{
 		this.cliente = cliente;
 	}
 
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-
-	public Date getDateModify() {
-		return dateModify;
-	}
-
-	public void setDateModify(Date dateModify) {
-		this.dateModify = dateModify;
-	}
-
-	public Long getUserCreation() {
-		return userCreation;
-	}
-
-	public void setUserCreation(Long userCreation) {
-		this.userCreation = userCreation;
-	}
-
-	public Long getUserModify() {
-		return userModify;
-	}
-
-	public void setUserModify(Long userModify) {
-		this.userModify = userModify;
-	}
+	
 
 
 }

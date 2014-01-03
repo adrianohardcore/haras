@@ -11,7 +11,7 @@
 <c:url value="/clientes" var="recordsUrl" />
 <c:url value="/cliente/form" var="addUrl" />
 <c:url value="/cliente/" var="editUrl" />
-<c:url value="/cliente/delete" var="deleteUrl" />
+<c:url value="/cliente/" var="deleteUrl" />
 
 <script type='text/javascript'>
 	$(function() {

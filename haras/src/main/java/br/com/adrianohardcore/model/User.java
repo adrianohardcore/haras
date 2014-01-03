@@ -4,7 +4,6 @@ import static javax.persistence.CascadeType.PERSIST;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,16 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Email;
-
-import br.com.adrianohardcore.model.util.JsonDateSerializer;
 
 @Entity(name = "user")
 public class User implements Serializable {
@@ -44,7 +38,6 @@ public class User implements Serializable {
 	private String userName;
 
 	@Column(unique = true)
-	//@NotNull
 	@Size(min = 5, max = 50)
 	@Email
 	private String email;
@@ -58,33 +51,12 @@ public class User implements Serializable {
 	@Transient
 	private String confirmPasswordForm;	
 
-	@JsonSerialize(using=JsonDateSerializer.class)
-	private Date dateCreation;
-
-	@JsonSerialize(using=JsonDateSerializer.class)
-	private Date dateModify;	
-
-	private Long userCreation;
-
-	private Long userModify;
 
 	@JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
 	@ManyToMany(cascade = PERSIST)
 	private List<Role> roles = new ArrayList<Role>(); 
 
-	@PreUpdate
-	public void preUpdate() {
-		dateModify = new Date();
-		userModify = (long) 1;        
-	}
 
-	@PrePersist
-	public void prePersist() {                
-		dateCreation = new Date();
-		userCreation = (long) 1;
-		dateModify = new Date();
-		userModify = (long) 1;
-	}
 
 
 
@@ -147,38 +119,6 @@ public class User implements Serializable {
 
 	public void setConfirmPasswordForm(String confirmPasswordForm) {
 		this.confirmPasswordForm = confirmPasswordForm;
-	}
-
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-
-	public Date getDateModify() {
-		return dateModify;
-	}
-
-	public void setDateModify(Date dateModify) {
-		this.dateModify = dateModify;
-	}
-
-	public Long getUserCreation() {
-		return userCreation;
-	}
-
-	public void setUserCreation(Long userCreation) {
-		this.userCreation = userCreation;
-	}
-
-	public Long getUserModify() {
-		return userModify;
-	}
-
-	public void setUserModify(Long userModify) {
-		this.userModify = userModify;
 	}
 
 	public List<Role> getRoles() {

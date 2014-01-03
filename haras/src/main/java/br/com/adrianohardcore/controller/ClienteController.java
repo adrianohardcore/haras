@@ -102,9 +102,10 @@ public class ClienteController  {
 	}	
 	
 	@RequestMapping(value = "/cliente/{id}", method = RequestMethod.DELETE)	
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable("id") Long id,HttpServletResponse response) {
 		logger.info("Excluindo usuário");			
 		clienteService.delete(id);		
+		response.setStatus(200);
 	}
 	
 	@RequestMapping(value = "/cliente/cliente-endereco/{id}", method = RequestMethod.DELETE)	
